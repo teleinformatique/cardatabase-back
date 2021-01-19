@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    database:
+        image: postgres:13-alpine
+        container_name: postgres-cardatabase
+        volumes:
+            - "./docker-web/data:/var/lib/postgresql/data"
+        environment:
+            POSTGRES_USER: cardatabase
+            POSTGRES_PASSWORD: cardatabase
+            POSTGRES_DB: cardatabase
+        ports: 
+            - '5432:5432'
+        expose:
+          - '5432'
+
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: pgadmin-cardatabase
+        depends_on:
+            - database
+        ports:
+            - 5554:5554
+        expose:
+          - 5554
+        environment:
+            PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+            PGADMIN_DEFAULT_PASSWORD: admin
+            PGADMIN_LISTEN_PORT: 5554
